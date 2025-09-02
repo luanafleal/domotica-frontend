@@ -1,0 +1,61 @@
+<style>
+    .menu {
+        position: fixed;
+        width: 65px;
+        padding: 32px 8px;
+        margin-left: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        background-color: #8B4CFF;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+        transition: transform 0.5s;
+        border-radius: 50px;
+        z-index: 999;
+        transform: translateY(-50%);
+        top: 50%;
+    }
+
+    .menu-link {
+        align-items: center;
+        text-align: center;
+        margin: 16px;
+        padding: 4px;
+        border-radius: 8%;
+        color: #fffcfc;
+
+        .material-symbols-outlined {
+            font-size: 64px;
+        }
+
+        font-size: 12px;
+    }
+
+    .menu-link.active {
+        background-color: #722ff0;
+    }
+
+    .menu-link:hover {
+        background-color: #722ff0;
+    }
+</style>
+
+<div class="menu">
+    <a href="#" class="menu-link active" data-page="components/casa/casas.html">
+        <span class="material-symbols-outlined">home</span>
+        <span>Casas</span>
+    </a>
+    <a href="#" class="menu-link">
+        <span class="material-symbols-outlined">light</span>
+        <span>Dispositivos</span>
+    </a>
+    <a href="#" class="menu-link">
+        <span class="material-symbols-outlined">videocam</span>
+        <span>Cenas</span>
+    </a>
+    <a href="#" class="menu-link">
+        <span class="material-symbols-outlined">settings</span>
+        <span>Config</span>
+    </a>
+</div>

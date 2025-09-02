@@ -1,0 +1,81 @@
+<!-- <div class="container">
+    <div class="left">
+        <div class="rooms">
+            <div class="card"><span class="material-symbols-rounded">weekend</span>
+                <p>Sala</p>
+            </div>
+            <div class="card active"><span class="material-symbols-rounded">bed</span>
+                <p>Quarto</p>
+            </div>
+            <div class="card"><span class="material-symbols-rounded">yard</span>
+                <p>Jardim</p>
+            </div>
+            <div class="card add"><span class="material-symbols-rounded">add</span></div>
+        </div>
+        <h3>Cenas</h3>
+        <div class="scenes">
+            <button class="scene"><span class="material-symbols-rounded">play_arrow</span> Hora do Sono</button>
+            <button class="scene">Bom dia</button>
+            <button class="scene add"><span class="material-symbols-rounded">videocam</span></button>
+        </div>
+    </div>
+    <div class="right">
+        <h3>DISPOSITIVOS</h3>
+        <div class="devices">
+            <div class="device"><span class="material-symbols-rounded">power</span>
+                <p>Tomada 1</p><span class="switch on">ON</span>
+            </div>
+            <div class="device active"><span class="material-symbols-rounded">power</span>
+                <p>Tomada 2</p><span class="switch off">OFF</span>
+            </div>
+            <div class="device"><span class="material-symbols-rounded">lightbulb</span>
+                <p>Lâmpada Principal</p><span class="switch on">ON</span>
+            </div>
+            <div class="device"><span class="material-symbols-rounded">lamp</span>
+                <p>Arandela</p><span class="switch on">ON</span>
+            </div>
+            <div class="device add"><span class="material-symbols-rounded">add</span></div>
+        </div>
+    </div>
+</div> -->
+
+<div>
+    <div class="container">
+        <div id="mensagem" class="mensagem">Nenhuma casa cadastrada. Cadastre uma nova.</div>
+
+        <div class="cards" id="cards">
+            <!-- Casas aparecem aqui -->
+            <div class="card" onclick="abrirModal()">
+                <div class="card-icon">＋</div>
+                <div class="card-text">Adicionar</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CADASTRO-->
+    <!-- Cadastro -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fecharModal()">&times;</span>
+            <h3>Cadastrar Nova Casa</h3>
+            <input type="text" id="nome" placeholder="Nome da Casa" required />
+            <input type="text" id="endereco" placeholder="Endereço" required />
+            <button onclick="cadastrarCasa()">Cadastrar</button>
+        </div>
+    </div>
+    
+    <!-- MODAL DE EDIÇÃO/EXCLUIR -->
+    <div id="modal-editar" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fecharModalEditar()">&times;</span>
+            <h3>Editar Casa</h3>
+            <input type="text" id="edit-nome" placeholder="Nome da Casa" required />
+            <input type="text" id="edit-endereco" placeholder="Endereço" required />
+            <button onclick="salvarEdicao()">Salvar</button>
+            <br><br>
+            <button onclick="excluirCasa()"
+                style="color: crimson; font-weight: 400; background: none; border: none; text-align: center; cursor: pointer;">Excluir Casa</button>
+        </div>
+    </div>
+
+</div>

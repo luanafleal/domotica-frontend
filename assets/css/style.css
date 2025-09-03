@@ -116,7 +116,52 @@ body {
   color: #04D291;
 }
 
+/* SIDEBAR DISPOSITIVOS */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  /* começa escondida */
+  width: 350px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+  transition: right 0.3s ease;
+  padding: 16px;
+  overflow-y: auto;
+  z-index: 1000;
+}
 
+.sidebar.ativa {
+  right: 0;
+  /* aparece */
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.device-card {
+  border: 1px solid #ddd;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.device-card button {
+  padding: 6px 10px;
+}
+
+.device-card { display: flex; justify-content: space-between; align-items: center; }
+.device-actions { display: flex; gap: 8px; }
+.device-actions .btn-toggle { padding: 6px 10px; border: none; border-radius: 6px; cursor: pointer; background: #8B4CFF; color: #fff; }
+.device-actions .btn-delete { padding: 6px 10px; border: none; border-radius: 6px; cursor: pointer; background: #ffeded; color: #b30000; }
+.device-actions .btn-delete:hover { filter: brightness(0.95); }
 
 
 /* MODAL */

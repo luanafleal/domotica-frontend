@@ -211,30 +211,43 @@ function inicializarPagina(casaId) {
                     const card = document.createElement("div");
                     card.className = "device-card";
                     card.innerHTML = `
-                                    <div class="device-info">
-                                    <strong>${dev.name}</strong><br>
-                                    <small>${dev.type}</small>
-                                    </div>
-                                    <div class="device-actions">
-                                    <button class="btn-toggle">${dev.state ? "Desligar" : "Ligar"}</button>
-                                    <button class="btn-delete" title="Excluir">🗑</button>
-                                    </div>
-                                `;
+                        <div class="device-info">
+                            <strong>${dev.name}</strong><br>
+                            <small>${dev.type}</small>
+                        </div>
+                        <div class="device-actions">
+                            <label class="switch">
+                                <input type="checkbox" class="toggle-switch" ${dev.state ? "checked" : ""}>
+                                <span class="slider round"></span>
+                            </label>
+                            <button class="btn-delete" title="Excluir">🗑</button>
+                        </div>
+                    `;
 
-                    // Ligar/Desligar (evita propagar o clique)
-                    card.querySelector(".btn-toggle").addEventListener("click", (e) => {
-                        e.stopPropagation();
-                        const novoEstado = !dev.state;
+                    // Ligar/Desligar dispositivo sem recarregar toda a lista
+                    const toggle = card.querySelector(".toggle-switch");
+                    toggle.addEventListener("change", (e) => {
+                        const novoEstado = e.target.checked;
+
                         fetch(`${API_URL}/devices/${dev.id_device}/state`, {
                             method: "PUT",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ state: novoEstado })
                         })
-                            .then(r => r.json())
-                            .then(() => abrirSidebarDispositivos(idComodo)); // recarrega lista
+                        .then(r => r.json())
+                        .then(() => {
+                            // Atualiza apenas o objeto local
+                            dev.state = novoEstado;
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert("Erro ao atualizar dispositivo");
+                            // volta toggle para o estado anterior em caso de erro
+                            e.target.checked = !novoEstado;
+                        });
                     });
 
-                    // Excluir (evita propagar o clique)
+                    // Excluir dispositivo (evita propagar o clique)
                     card.querySelector(".btn-delete").addEventListener("click", (e) => {
                         e.stopPropagation();
                         excluirDispositivo(dev.id_device, idComodo);

@@ -323,6 +323,7 @@ function inicializarPagina(casaId) {
     window.fecharSidebar = fecharSidebar;
     window.abrirModalNovoDispositivo = abrirModalNovoDispositivo;
     window.salvarNovoDispositivo = salvarNovoDispositivo;
+    window.fecharModalNovoDispositivo = fecharModalNovoDispositivo;
 
     // ================== INICIALIZAÇÃO ==================
     getComodos();

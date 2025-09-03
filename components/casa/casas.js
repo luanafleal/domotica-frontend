@@ -156,7 +156,7 @@ function inicializarPagina() {
 
                 // Clique no card (abrir cômodos)
                 card.addEventListener("click", () => {
-                    carregarPagina("components/comodo/comodos.html", null, casa.id);
+                    carregarPagina("components/comodo/comodos.html", null, { id: casa.id, nome: casa.nome });
                 });
 
                 // Clique no botão editar (para não acionar o card)

@@ -1,5 +1,13 @@
-function inicializarPagina(casaId) {
+function inicializarPagina(casaInfo) {
     const API_URL = `http://localhost:3000/api`;
+
+    const casaId = casaInfo.id;
+    const casaNome = casaInfo.nome;
+
+    const titulo = document.querySelector("h1");
+    if (titulo) {
+        titulo.innerText = `Cômodos de "${casaNome}"`;
+    }
 
     const cardsContainer = document.getElementById('cards');
     const mensagem = document.getElementById('mensagem');

@@ -30,57 +30,43 @@ class MenuComponent extends HTMLElement {
 
 customElements.define("menu-component", MenuComponent);
 
-// Função global (pode ficar no index.html)
-function carregarPagina(pagina, elemento) {
-  // fetch(pagina)
-  //   .then(res => res.text())
-  //   .then(html => {
-  //     document.getElementById('conteudo').innerHTML = html;
-
-  //     // Atualizar destaque no menu
-  //     document.querySelectorAll('.menu-link').forEach(link => {
-  //       link.classList.remove('active');
-  //     });
-  //     elemento.classList.add('active');
-
-  //     if (pagina.includes("casa")) {
-  //       const script = document.createElement("script");
-  //       script.src = "components/casa/casas.js";
-  //       document.body.appendChild(script);
-  //     }
-  //   })
-  //   .catch(err => console.error("Erro ao carregar página:", err));
-
+function carregarPagina(pagina, itemMenu, parametro = null) {
   fetch(pagina)
     .then(res => res.text())
     .then(html => {
       document.getElementById('conteudo').innerHTML = html;
 
-      // Atualizar destaque no menu
-      document.querySelectorAll('.menu-link').forEach(link => {
-        link.classList.remove('active');
-      });
-      elemento.classList.add('active');
-
-      // Atualizar cabeçalho
-      const header = document.getElementById('header-topo');
-      const headerIcone = document.getElementById('header-icone');
-      const headerTitulo = document.getElementById('header-titulo');
-
-      const spanIcone = elemento.querySelector('.material-symbols-outlined');
-      const texto = elemento.querySelector('span:last-child')?.textContent.trim();
-
-      if (header && headerIcone && headerTitulo && spanIcone && texto) {
-        headerIcone.textContent = spanIcone.textContent;
-        headerTitulo.textContent = texto;
+      if (!!itemMenu) {
+        // Atualizar destaque no menu
+        document.querySelectorAll('.menu-link').forEach(link => link.classList.remove('active'));
+        itemMenu.classList.add('active');
+  
+        // Atualizar cabeçalho
+        const header = document.getElementById('header-topo');
+        const headerIcone = document.getElementById('header-icone');
+        const headerTitulo = document.getElementById('header-titulo');
+  
+        const spanIcone = itemMenu.querySelector('.material-symbols-outlined');
+        const texto = itemMenu.querySelector('span:last-child')?.textContent.trim();
+  
+        if (header && headerIcone && headerTitulo && spanIcone && texto) {
+          headerIcone.textContent = spanIcone.textContent;
+          headerTitulo.textContent = texto;
+        }
       }
 
-      // Carregar scripts específicos
-      if (pagina.includes("casa")) {
-        const script = document.createElement("script");
-        script.src = "components/casa/casas.js";
-        document.body.appendChild(script);
-      }
+      // Carregar script específico da página
+      const script = document.createElement("script");
+      // Convenção: script da página está no mesmo diretório que o HTML, mesmo nome, mas .js
+      script.src = pagina.replace('.html', '.js');
+      script.onload = () => {
+        // Convenção: cada página deve exportar globalmente uma função chamada `inicializarPagina`
+        if (typeof inicializarPagina === "function") {
+          inicializarPagina(parametro);
+        }
+      };
+
+      document.body.appendChild(script);
     })
     .catch(err => console.error("Erro ao carregar página:", err));
 }

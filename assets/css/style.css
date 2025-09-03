@@ -120,12 +120,11 @@ body {
 .sidebar {
   position: fixed;
   top: 0;
-  right: -400px;
-  /* começa escondida */
+  right: -400px; /* fora da tela */
   width: 350px;
   height: 100%;
   background: #fff;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+  box-shadow: -2px 0 8px rgba(0,0,0,0.2);
   transition: right 0.3s ease;
   padding: 16px;
   overflow-y: auto;
@@ -134,61 +133,81 @@ body {
 
 .sidebar.ativa {
   right: 0;
-  /* aparece */
 }
 
 .sidebar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 16px;
 }
 
+
+/* CARDS DISPOSITIVOS */
 .device-card {
-  border: 1px solid #ddd;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 8px;
+  width: 320px;             /* maior para caber nome e tipo */
+  height: 100px;            /* altura confortável */
+  padding: 16px 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;   /* texto em coluna */
+  justify-content: center;
+  align-items: flex-start;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.device-card button {
-  padding: 6px 10px;
+.device-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
-.device-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* TEXTO NOME E TIPO */
+.device-card .device-nome {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 4px;
 }
 
+.device-card .device-tipo {
+  font-size: 14px;
+  color: #666;
+}
+
+/* AÇÕES */
 .device-actions {
+  margin-top: 8px;
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
-.device-actions .btn-toggle {
-  padding: 6px 10px;
+.btn-toggle {
+  padding: 6px 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   background: #8B4CFF;
   color: #fff;
 }
 
-.device-actions .btn-delete {
-  padding: 6px 10px;
+.btn-toggle:hover {
+  background: #6a33cc;
+}
+
+.btn-delete {
+  padding: 6px 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   background: #ffeded;
   color: #b30000;
 }
 
-.device-actions .btn-delete:hover {
-  filter: brightness(0.95);
+.btn-delete:hover {
+  filter: brightness(0.9);
 }
+
 
 /* Botão Dispositivos */
 .switch {
@@ -296,4 +315,22 @@ button {
 
 button:hover {
   background: #009ec6;
+}
+
+/* SEÇÃO CÔMODOS */
+#comodo-container h2 {
+  margin-bottom: 12px; /* espaço entre título e select */
+  font-size: 18px;
+  color: #333;
+}
+
+#comodo-container select {
+  margin-bottom: 20px; /* espaço abaixo do select antes da lista de dispositivos */
+}
+
+/* SEÇÃO DISPOSITIVOS */
+#dispositivos-container h2 {
+  margin-bottom: 12px; /* título "Dispositivos" e os cards */
+  font-size: 18px;
+  color: #333;
 }

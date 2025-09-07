@@ -335,6 +335,153 @@ function inicializarPagina(casaInfo) {
             });
     }
 
+    // ================== MODAL CENAS ==================
+    const modalCena = document.getElementById("modal-cena");
+    const btnNovaCena = document.getElementById("btn-add-cena");
+    const selectDispositivo = document.getElementById("select-dispositivo");
+    const selectAcao = document.getElementById("select-acao");
+    const inputDelay = document.getElementById("delay");
+    const inputNomeCena = document.getElementById("cena-nome");
+    const listaAcoes = document.getElementById("lista-acoes");
+
+    let acoesTemp = []; // guarda ações antes de salvar a cena
+
+    function abrirModalCena() {
+        fecharSidebar();
+        modalCena.style.display = "flex";
+        inputNomeCena.value = "";
+        listaAcoes.innerHTML = "";
+        acoesTemp = [];
+
+        // carregar dispositivos do cômodo atual
+        fetch(`${API_URL}/devices/room/${idComodoSelecionado}`)
+            .then(res => res.json())
+            .then(devices => {
+                selectDispositivo.innerHTML = "";
+                devices.forEach(d => {
+                    const opt = document.createElement("option");
+                    opt.value = d.id_device;
+                    opt.textContent = d.name;
+                    selectDispositivo.appendChild(opt);
+                });
+            });
+    }
+
+    function fecharModalCena() {
+        modalCena.style.display = "none";
+    }
+
+    // adicionar ação na lista temporária
+    document.getElementById("btn-add-acao").addEventListener("click", () => {
+        const dispositivoId = selectDispositivo.value;
+        const dispositivoNome = selectDispositivo.options[selectDispositivo.selectedIndex].text;
+        const acao = selectAcao.value;
+        const delay = parseInt(inputDelay.value) || 0;
+
+        const ordem = acoesTemp.length + 1;
+
+        const acaoObj = { dispositivoId, dispositivoNome, acao, delay, ordem };
+        acoesTemp.push(acaoObj);
+
+        renderizarAcoesTemp();
+    });
+
+    function renderizarAcoesTemp() {
+        listaAcoes.innerHTML = "";
+        acoesTemp.forEach(a => {
+            const div = document.createElement("div");
+            div.className = "acao-card";
+            div.innerHTML = `
+                <span>${a.ordem} - [ +${a.delay}s ] - ${a.dispositivoNome} - ${a.acao === "turn_on" ? "Ligar" : "Desligar"}</span>
+                <button onclick="removerAcao(${a.ordem})">x</button>
+            `;
+            listaAcoes.appendChild(div);
+        });
+    }
+
+    window.removerAcao = (ordem) => {
+        acoesTemp = acoesTemp.filter(a => a.ordem !== ordem);
+        // reordenar
+        acoesTemp = acoesTemp.map((a, i) => ({ ...a, ordem: i + 1 }));
+        renderizarAcoesTemp();
+    };
+
+    // salvar cena
+    document.getElementById("btn-salvar-cena").addEventListener("click", () => {
+        const nomeCena = inputNomeCena.value.trim();
+        if (!nomeCena) {
+            alert("Digite o nome da cena");
+            return;
+        }
+
+        // 1. Criar cena
+        fetch(`${API_URL}/scenes`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: nomeCena, is_active: true })
+        })
+            .then(res => res.json())
+            .then(cena => {
+                // 2. Criar ações da cena
+                const promises = acoesTemp.map(a =>
+                    fetch(`${API_URL}/scene-devices`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            id_scene: cena.id_scene,
+                            id_device: a.dispositivoId,
+                            action: a.acao,
+                            order: a.ordem,
+                            interval: a.delay
+                        })
+                    })
+                );
+                return Promise.all(promises).then(() => cena);
+            })
+            .then(cena => {
+                fecharModalCena();
+                carregarCenas(); // recarrega lista de cenas abaixo do cômodo
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Erro ao salvar cena");
+            });
+    });
+
+    // ================== LISTAR CENAS ==================
+    function carregarCenas() {
+        fetch(`${API_URL}/scenes`)
+            .then(res => res.json())
+            .then(data => {
+                const lista = document.getElementById("lista-cenas");
+                lista.innerHTML = "";
+                data.forEach(cena => {
+                    const card = document.createElement("div");
+                    card.className = "card cena-card";
+                    card.innerHTML = `
+                        <span>${cena.name}</span>
+                        <button class="btn-cena" onclick="executarCena(${cena.id_scene})">▶</button>
+                    `;
+                    lista.appendChild(card);
+                });
+            });
+    }
+
+    window.executarCena = (idCena) => {
+        fetch(`${API_URL}/scenes/${idCena}/execute`, { method: "POST" })
+            .then(res => res.json())
+            .then(msg => alert(msg.message))
+            .catch(err => {
+                console.error(err);
+                alert("Erro ao executar cena");
+            });
+    };
+
+    // vincular botão nova cena
+    btnNovaCena.addEventListener("click", abrirModalCena);
+
+    carregarCenas();
+
 
     // ================== VINCULAR BOTÕES ==================
     window.cadastrarComodo = cadastrarComodo;
@@ -345,6 +492,7 @@ function inicializarPagina(casaInfo) {
     window.abrirModalNovoDispositivo = abrirModalNovoDispositivo;
     window.salvarNovoDispositivo = salvarNovoDispositivo;
     window.fecharModalNovoDispositivo = fecharModalNovoDispositivo;
+    window.fecharModalCena = fecharModalCena;
 
     // ================== INICIALIZAÇÃO ==================
     getComodos();

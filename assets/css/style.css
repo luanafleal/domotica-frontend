@@ -47,17 +47,13 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-  margin-left: 120px;
+  margin: 120px;
   height: 100vh;
-}
-
-.container {
-  padding: 120px;
 }
 
 .mensagem {
   text-align: center;
-  color: #666;
+  color: #838383;
   margin-top: 50px;
 }
 
@@ -84,6 +80,7 @@ body {
 
 .card:hover {
   transform: scale(1.05);
+  background-color: #04D291;
 }
 
 .card-icon {
@@ -92,10 +89,19 @@ body {
   color: #04D291;
 }
 
+.card:hover .card-icon {
+  color: #ffffff;
+}
+
 .card-text {
   font-size: 14px;
   text-align: center;
   color: #333;
+}
+
+.card:hover .card-text {
+  font-size: 18px;
+  color: #ffffff;
 }
 
 .card-editar {
@@ -107,24 +113,27 @@ body {
   font-size: 15px;
   cursor: pointer;
   z-index: 1;
-  color: #666;
+  color: #838383;
   transition: background-color 0.2s;
 }
 
 .card-editar:hover {
   background-color: #ffffff;
-  color: #04D291;
+  border-radius: 20px;
+  color: #8B4CFF;
+  transform: scale(1.2);
 }
 
 /* SIDEBAR DISPOSITIVOS */
 .sidebar {
   position: fixed;
   top: 0;
-  right: -400px; /* fora da tela */
+  right: -400px;
+  /* fora da tela */
   width: 350px;
   height: 100%;
   background: #fff;
-  box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
   transition: right 0.3s ease;
   padding: 16px;
   overflow-y: auto;
@@ -145,14 +154,17 @@ body {
 
 /* CARDS DISPOSITIVOS */
 .device-card {
-  width: 320px;             /* maior para caber nome e tipo */
-  height: 100px;            /* altura confortável */
+  width: 320px;
+  /* maior para caber nome e tipo */
+  height: 100px;
+  /* altura confortável */
   padding: 16px 20px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-direction: column;   /* texto em coluna */
+  flex-direction: column;
+  /* texto em coluna */
   justify-content: center;
   align-items: flex-start;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -305,32 +317,137 @@ input {
 
 button {
   padding: 8px 12px;
+  margin-top: 30px;
   background: #04d291;
   font-weight: bold;
   color: white;
   border: none;
   border-radius: 20px;
   cursor: pointer;
+  transition: transform 0.9s ease;
 }
 
 button:hover {
-  background: #009ec6;
+  background: #64d6b2;
+  transform: scale(1.1);
+
 }
 
 /* SEÇÃO CÔMODOS */
 #comodo-container h2 {
-  margin-bottom: 12px; /* espaço entre título e select */
+  margin-bottom: 12px;
+  /* espaço entre título e select */
   font-size: 18px;
   color: #333;
 }
 
 #comodo-container select {
-  margin-bottom: 20px; /* espaço abaixo do select antes da lista de dispositivos */
+  margin-bottom: 20px;
+  /* espaço abaixo do select antes da lista de dispositivos */
 }
 
 /* SEÇÃO DISPOSITIVOS */
 #dispositivos-container h2 {
-  margin-bottom: 12px; /* título "Dispositivos" e os cards */
+  margin-bottom: 12px;
+  /* título "Dispositivos" e os cards */
   font-size: 18px;
   color: #333;
+}
+
+/* CENAS */
+#cenas-container {
+  margin: 20px;
+
+}
+
+#lista-cenas.cards .card {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  padding: 12px 16px;
+  align-items: center;
+  padding: 16px;
+  background-color: #E6E6E6;
+  border-radius: 8px;
+  cursor: pointer;
+  width: auto;
+  height: auto;
+  min-width: 60px;
+  gap: 12px;
+  transition: transform 0.2s;
+}
+
+.cena-card span {
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+/* Botão Executar Cena */
+.btn-cena {
+  position: relative;
+  padding: 6px 10px;
+  background: #04d291;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin: 0;
+  align-self: center;
+  transition: background-color 0.3s ease;
+  z-index: 1;
+}
+
+.btn-cena:hover {
+  background-color: #64d6b2;
+}
+
+.btn-cena:hover::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: rgba(12, 224, 161, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: sonar 1.2s ease-out infinite;
+  pointer-events: none;
+  z-index: 0;;
+}
+
+@keyframes sonar {
+  0% {
+    width: 10px;
+    height: 10px;
+    opacity: 0.6;
+  }
+  100% {
+    width: 120px;
+    height: 120px;
+    opacity: 0;
+  }
+}
+
+#modal-cena {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+#modal-cena .modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 400px;
+  max-height: 90%;
+  overflow-y: auto;
 }

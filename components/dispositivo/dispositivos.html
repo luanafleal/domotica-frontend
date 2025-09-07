@@ -1,59 +1,47 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Dispositivos por Cômodo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <link rel="stylesheet" href="dispositivos.css">
-</head>
-<body>
+<div class="container">
     <header class="header-topo">
         <span class="material-symbols-outlined">light</span>
         <h1>Listar Dispositivos</h1>
     </header>
 
-    <div class="container">
-        <div id="cards-casas" class="cards"></div>
+    <!-- Cards das casas -->
+    <div id="cards-casas" class="cards"></div>
+
+    <!-- Select dos cômodos -->
+    <div id="comodo-container" class="hidden">
+        <h3>Escolha o cômodo</h3>
+        <select id="select-comodos">
+            <option value="">Selecione um cômodo</option>
+        </select>
     </div>
 
-    <body>
-        <header class="header-topo">
-            <span class="material-symbols-outlined">light</span>
-            <h1>Listar Dispositivos</h1>
-        </header>
-    
-        <div class="container">
-            <!-- Cards das casas -->
-            <div id="cards-casas" class="cards"></div>
+    <!-- Lista de dispositivos -->
+    <div id="dispositivos-container" class="hidden">
+        <h3>Dispositivos</h3>
+        <div id="sidebar-lista" class="cards"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2>Dispositivos</h2>
+            <span id="fechar-sidebar" class="material-symbols-outlined" style="cursor:pointer;">close</span>
         </div>
-    
-        <!-- Sidebar -->
-        <div id="sidebar" class="sidebar">
-            <div class="sidebar-header">
-                <h2>Dispositivos</h2>
-                <span id="fechar-sidebar" class="material-symbols-outlined" style="cursor:pointer;">close</span>
-            </div>
-    
-            <!-- Select dos cômodos -->
-            <div id="comodo-container" class="hidden">
-                <h3>Escolha o cômodo</h3>
-                <select id="select-comodos">
-                    <option value="">Selecione um cômodo</option>
-                </select>
-            </div>
-    
-            <!-- Lista de dispositivos -->
-            <div id="dispositivos-container" class="hidden">
-                <h3>Dispositivos</h3>
-                <div id="sidebar-lista" class="cards"></div>
-            </div>
+
+        <!-- Select dos cômodos -->
+        <div id="comodo-container" class="hidden">
+            <h3>Escolha o cômodo</h3>
+            <select id="select-comodos">
+                <option value="">Selecione um cômodo</option>
+            </select>
         </div>
-    
-        <script src="dispositivos.js"></script>
-    </body>
-    
-    
+
+        <!-- Lista de dispositivos -->
+        <div id="dispositivos-container" class="hidden">
+            <h3>Dispositivos</h3>
+            <div id="sidebar-lista" class="cards"></div>
+        </div>
+    </div>
 
     <script src="dispositivos.js"></script>
-</body>
-</html>
+</div>

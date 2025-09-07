@@ -182,6 +182,7 @@ function inicializarPagina() {
         fetch(API_URL)
             .then(response => response.json())
             .then(data => {
+                console.log('Aqui 2')
                 casas = data.map(casa => ({
                     id: casa.id_house,
                     nome: casa.name,

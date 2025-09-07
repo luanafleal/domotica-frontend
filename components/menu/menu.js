@@ -40,15 +40,15 @@ function carregarPagina(pagina, itemMenu, parametro = null) {
         // Atualizar destaque no menu
         document.querySelectorAll('.menu-link').forEach(link => link.classList.remove('active'));
         itemMenu.classList.add('active');
-  
+
         // Atualizar cabeçalho
         const header = document.getElementById('header-topo');
         const headerIcone = document.getElementById('header-icone');
         const headerTitulo = document.getElementById('header-titulo');
-  
+
         const spanIcone = itemMenu.querySelector('.material-symbols-outlined');
         const texto = itemMenu.querySelector('span:last-child')?.textContent.trim();
-  
+
         if (header && headerIcone && headerTitulo && spanIcone && texto) {
           headerIcone.textContent = spanIcone.textContent;
           headerTitulo.textContent = texto;
@@ -63,6 +63,7 @@ function carregarPagina(pagina, itemMenu, parametro = null) {
         // Convenção: cada página deve exportar globalmente uma função chamada `inicializarPagina`
         if (typeof inicializarPagina === "function") {
           inicializarPagina(parametro);
+          console.log('Será que foi pro else')
         }
       };
 

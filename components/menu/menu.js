@@ -63,7 +63,6 @@ function carregarPagina(pagina, itemMenu, parametro = null) {
         // Convenção: cada página deve exportar globalmente uma função chamada `inicializarPagina`
         if (typeof inicializarPagina === "function") {
           inicializarPagina(parametro);
-          console.log('Será que foi pro else')
         }
       };
 

@@ -1,5 +1,5 @@
 function inicializarPagina() {
-    const API_URL = "http://localhost:3000/api/houses";
+    const API_URL = "http://localhost:3001/api/houses";
 
     const cardsContainer = document.getElementById('cards');
     const mensagem = document.getElementById('mensagem');
@@ -182,7 +182,11 @@ function inicializarPagina() {
         fetch(API_URL)
             .then(response => response.json())
             .then(data => {
-                console.log('Aqui 2')
+
+                if (!Array.isArray(data)) {
+                    data = [];
+                }
+
                 casas = data.map(casa => ({
                     id: casa.id_house,
                     nome: casa.name,
@@ -199,8 +203,10 @@ function inicializarPagina() {
     window.cadastrarCasa = cadastrarCasa;
     window.salvarEdicao = salvarEdicao;
     window.excluirCasa = excluirCasa;
+    window.abrirModal = abrirModal;
     window.abrirModalEditar = abrirModalEditar;
     window.fecharModalEditar = fecharModalEditar;
+    window.fecharModal = fecharModal;
 
     // ================== INICIALIZAÇÃO ==================
     getCasas();

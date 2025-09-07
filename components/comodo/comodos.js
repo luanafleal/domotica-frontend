@@ -273,7 +273,7 @@ function inicializarPagina(casaInfo) {
 
     function fecharSidebar() {
         document.getElementById('sidebar-dispositivos').classList.remove('ativa');
-        idComodoSelecionado = null;
+        // idComodoSelecionado = null;
     }
 
     // ================== MODAL NOVO DISPOSITIVO ==================

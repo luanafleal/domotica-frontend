@@ -86,7 +86,7 @@ function inicializarPagina() {
         fetch(`${API_URL}/devices/room/${comodoId}`)
             .then(res => res.json())
             .then(data => {
-                dispositivos = data.map(d => ({ nome: d.name, tipo: d.type }));
+                dispositivos = data.map(d => ({ id: d.id_device, nome: d.name, tipo: d.type, state: d.state }));
                 renderDispositivos();
             })
             .catch(err => console.error(err));
@@ -101,7 +101,42 @@ function inicializarPagina() {
             dispositivos.forEach(d => {
                 const card = document.createElement("div");
                 card.className = "device-card";
-                card.innerHTML = `<strong class="device-nome">${d.nome}</strong><small class="device-tipo">${d.tipo}</small>`;
+                card.innerHTML = `
+                    <div class="device-info">
+                        <strong class="device-nome">${d.nome}</strong><br>
+                        <small class="device-tipo">${d.tipo}</small>
+                    </div>
+                    <div class="device-actions">
+                        <label class="switch">
+                            <input type="checkbox" class="toggle-switch" ${d.state ? "checked" : ""}>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                `;
+
+                const toggle = card.querySelector(".toggle-switch");
+                    toggle.addEventListener("change", (e) => {
+                    const novoEstado = e.target.checked;
+
+                    fetch(`${API_URL}/devices/${d.id}/state`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ state: novoEstado })
+                    })
+                    .then(r => {
+                        if (!r.ok) throw new Error("Erro ao atualizar o dispositivo");
+                        return r.json();
+                    })
+                    .then(() => {
+                        d.state = novoEstado; 
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Erro ao atualizar dispositivo");
+                        e.target.checked = !novoEstado; 
+                    });
+                });
+
                 sidebarLista.appendChild(card);
             });
         }
